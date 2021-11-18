@@ -14,7 +14,9 @@ function App() {
 
   return (
     <Wrapper>
-      <Hello name={name} color="red" />
+      {/* 조건부 렌더링 isSpecial */}
+      {/* props 값 설정을 생략한 True */}
+      <Hello name={name} color="red" isSpecial={true} />
       <Hello color="pink" />
       <div style={style}>{name}</div>
       <div className="gray-box"></div>
