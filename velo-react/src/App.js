@@ -1,24 +1,23 @@
-import logo from './logo.svg';
-import './App.css';
+import Hello from "./Hello";
+import "./App.css";
 
 function App() {
+  const name = "react";
+  const style = {
+    // 내부 태그에서는 이렇게 작성이 가능합니다.
+    backgroundColor: "black",
+    color: "aqua",
+    fontSize: 24,
+    padding: "1rem",
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Hello />
+      {/* 주석은 화면에 보이지 않습니다. */}
+      <div style={style}>{name}</div>
+      <div className="gray-box"></div>
+    </>
   );
 }
 
