@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useMemo, useCallback } from "react";
 import "./App.css";
 import Hello from "./Hello";
 import Wrapper from "./Wrapper";
@@ -24,13 +24,16 @@ function App() {
   const { username, email } = inputs;
 
   // 상태 관리
-  const onChange = (e) => {
-    const { name, value } = e.target;
-    setInputs({
-      ...inputs,
-      [name]: value,
-    });
-  };
+  const onChange = useCallback(
+    (e) => {
+      const { name, value } = e.target;
+      setInputs({
+        ...inputs,
+        [name]: value,
+      });
+    },
+    [inputs]
+  );
 
   const [users, setUsers] = useState([
     {
@@ -55,7 +58,7 @@ function App() {
 
   const nextId = useRef(4);
 
-  const onCreate = () => {
+  const onCreate = useCallback(() => {
     const user = {
       id: nextId.current,
       username,
@@ -72,20 +75,35 @@ function App() {
       email: "",
     });
     nextId.current += 1;
+  }, [users, username, email]);
+
+  const onRemove = useCallback(
+    (id) => {
+      // 배열에서 항목을 제거할 때 filter 내장 함수 사용
+      setUsers(users.filter((user) => user.id !== id));
+    },
+    [users]
+  );
+
+  const onToggle = useCallback(
+    (id) => {
+      setUsers(
+        users.map((user) =>
+          user.id === id ? { ...user, active: !user.active } : user
+        )
+      );
+    },
+    [users]
+  );
+
+  const countActiveUser = (users) => {
+    console.log("활성 사용자 count");
+    return users.filter((user) => user.active).length;
   };
 
-  const onRemove = (id) => {
-    // 배열에서 항목을 제거할 때 filter 내장 함수 사용
-    setUsers(users.filter((user) => user.id !== id));
-  };
-
-  const onToggle = (id) => {
-    setUsers(
-      users.map((user) =>
-        user.id === id ? { ...user, active: !user.active } : user
-      )
-    );
-  };
+  // 비효율적인 리렌더링을 방지하고자 useMemo 사용
+  // deps 배열이 바뀌면 등록한 함수를 호출하여 재연산 / 아니면 원래 값 재사용
+  const count = useMemo(() => countActiveUser(users), [users]);
 
   return (
     <Wrapper>
@@ -104,6 +122,7 @@ function App() {
         onCreate={onCreate}
       />
       <UserList users={users} onRemove={onRemove} onToggle={onToggle} />
+      <div>활성 사용자 수 : {count} </div>
     </Wrapper>
   );
 }
