@@ -1,35 +1,34 @@
-const User = ({ user }) => {
+const User = ({ user, onRemove, onToggle }) => {
   return (
     <div>
-      <b>{user.username}</b> <span>({user.email}) </span>
+      <b
+        style={{
+          cursor: "pointer",
+          color: user.active ? "green" : "black",
+        }}
+        onClick={() => onToggle(user.id)}
+      >
+        {user.username}
+      </b>
+
+      <span>({user.email}) </span>
+      <button onClick={() => onRemove(user.id)}>삭제</button>
     </div>
   );
 };
 
-const UserList = () => {
-  const users = [
-    {
-      id: 1,
-      username: "velopert",
-      email: "public.velopert@gmail.com",
-    },
-    {
-      id: 2,
-      username: "tester",
-      email: "tester@example.com",
-    },
-    {
-      id: 3,
-      username: "liz",
-      email: "liz@example.com",
-    },
-  ];
-
+const UserList = ({ users, onRemove, onToggle }) => {
+  // users 배열을 App.js로 이동시켜 props를 통해 받기
   return (
     <div>
       {/* 배열을 렌더링 할 때에는 고유한 key값을 사용하는 것이 중요하다 */}
       {users.map((user) => (
-        <User user={user} key={user.id} />
+        <User
+          user={user}
+          key={user.id}
+          onRemove={onRemove}
+          onToggle={onToggle}
+        />
       ))}
     </div>
   );
