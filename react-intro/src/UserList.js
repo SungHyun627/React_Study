@@ -1,6 +1,8 @@
 import { useEffect } from "react";
+import React from "react";
 
-const User = ({ user, onRemove, onToggle }) => {
+// Component 리렌더링 방지
+const User = React.memo(({ user, onRemove, onToggle }) => {
   // useEffect 안에서 사용하는 상태나, props가 있다면, useEffect의 deps에 넣어준다.
   useEffect(() => {
     console.log(user);
@@ -22,7 +24,7 @@ const User = ({ user, onRemove, onToggle }) => {
       <button onClick={() => onRemove(user.id)}>삭제</button>
     </div>
   );
-};
+});
 
 const UserList = ({ users, onRemove, onToggle }) => {
   // users 배열을 App.js로 이동시켜 props를 통해 받기
@@ -41,4 +43,4 @@ const UserList = ({ users, onRemove, onToggle }) => {
   );
 };
 
-export default UserList;
+export default React.memo(UserList);

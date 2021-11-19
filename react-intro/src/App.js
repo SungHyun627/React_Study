@@ -24,16 +24,13 @@ function App() {
   const { username, email } = inputs;
 
   // 상태 관리
-  const onChange = useCallback(
-    (e) => {
-      const { name, value } = e.target;
-      setInputs({
-        ...inputs,
-        [name]: value,
-      });
-    },
-    [inputs]
-  );
+  const onChange = useCallback((e) => {
+    const { name, value } = e.target;
+    setInputs((inputs) => ({
+      ...inputs,
+      [name]: value,
+    }));
+  }, []);
 
   const [users, setUsers] = useState([
     {
@@ -64,9 +61,10 @@ function App() {
       username,
       email,
     };
-    setUsers([...users, user]);
     // 불변성을 유지하면서 배열에 항목 추가하는 법
     // 1. spread 2. concat
+    setUsers((users) => users.concat(user));
+
     // concat 함수 이용법
     // setUsers(users.concat(user));
 
@@ -75,26 +73,20 @@ function App() {
       email: "",
     });
     nextId.current += 1;
-  }, [users, username, email]);
+  }, [username, email]);
 
-  const onRemove = useCallback(
-    (id) => {
-      // 배열에서 항목을 제거할 때 filter 내장 함수 사용
-      setUsers(users.filter((user) => user.id !== id));
-    },
-    [users]
-  );
+  const onRemove = useCallback((id) => {
+    // 배열에서 항목을 제거할 때 filter 내장 함수 사용
+    setUsers((users) => users.filter((user) => user.id !== id));
+  }, []);
 
-  const onToggle = useCallback(
-    (id) => {
-      setUsers(
-        users.map((user) =>
-          user.id === id ? { ...user, active: !user.active } : user
-        )
-      );
-    },
-    [users]
-  );
+  const onToggle = useCallback((id) => {
+    setUsers((users) =>
+      users.map((user) =>
+        user.id === id ? { ...user, active: !user.active } : user
+      )
+    );
+  }, []);
 
   const countActiveUser = (users) => {
     console.log("활성 사용자 count");
