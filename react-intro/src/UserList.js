@@ -1,4 +1,11 @@
+import { useEffect } from "react";
+
 const User = ({ user, onRemove, onToggle }) => {
+  // useEffect 안에서 사용하는 상태나, props가 있다면, useEffect의 deps에 넣어준다.
+  useEffect(() => {
+    console.log(user);
+  });
+
   return (
     <div>
       <b
