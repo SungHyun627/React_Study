@@ -1,4 +1,4 @@
-import { useRef, useReducer, useMemo, useCallback } from "react";
+import React, { useRef, useReducer, useMemo, useCallback } from "react";
 import "./App.css";
 import Hello from "./Hello";
 import Wrapper from "./Wrapper";
@@ -57,6 +57,9 @@ const reducer = (state, action) => {
   }
 };
 
+// Export context object
+export const UserDispatch = React.createContext(null);
+
 const App = () => {
   const name = "react";
   const style = {
@@ -83,22 +86,9 @@ const App = () => {
         email,
       },
     });
+    reset();
     nextId.current += 1;
   }, [username, email, reset]);
-
-  const onToggle = useCallback((id) => {
-    dispatch({
-      type: "TOGGLE_USER",
-      id,
-    });
-  }, []);
-
-  const onRemove = useCallback((id) => {
-    dispatch({
-      type: "REMOVE_USER",
-      id,
-    });
-  }, []);
 
   const count = useMemo(() => countActiveUser(users), [users]);
 
@@ -112,14 +102,16 @@ const App = () => {
       <div className="gray-box"></div>
       <Counter />
       <InputSample />
-      <CreateUser
-        username={username}
-        email={email}
-        onChange={onChange}
-        onCreate={onCreate}
-      />
-      <UserList users={users} onRemove={onRemove} onToggle={onToggle} />
-      <div>활성 사용자 수 : {count}</div>
+      <UserDispatch.Provider value={dispatch}>
+        <CreateUser
+          username={username}
+          email={email}
+          onChange={onChange}
+          onCreate={onCreate}
+        />
+        <UserList users={users} />
+        <div>활성 사용자 수 : {count}</div>
+      </UserDispatch.Provider>
     </Wrapper>
   );
 
