@@ -1,4 +1,18 @@
 $blue: #228be6;
+$gray: #495057;
+$pink: #f06595;
+
+// 반복되는 코드를 mixin기능을 이용하여 재사용
+@mixin button-color($color) {
+  background: $color;
+  &:hover {
+    background: lighten($color, 10%);
+  }
+
+  &:active {
+    background: darken($color, 10%);
+  }
+}
 
 .Button {
   display: inline-flex;
@@ -37,12 +51,20 @@ $blue: #228be6;
   padding-right: 1rem;
   font-size: 1rem;
 
-  background: $blue;
-  &:hover {
-    background: lighten($blue, 10%);
+  // 여러 가지 색상 사용
+  &.blue {
+    @include button-color($blue);
   }
 
-  &:active {
-    background: darken($blue, 10%);
+  &.gray {
+    @include button-color($gray);
+  }
+
+  &.pink {
+    @include button-color($pink);
+  }
+
+  & + & {
+    margin-left: 1rem;
   }
 }
