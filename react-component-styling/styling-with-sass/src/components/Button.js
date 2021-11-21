@@ -1,9 +1,12 @@
 import "./Button.scss";
 import classNames from "classnames";
 
-const Button = ({ children, size, color }) => {
+const Button = ({ children, size, color, outline }) => {
   return (
-    <button className={classNames("Button", size, color)}>{children}</button>
+    // outline이 true일 때에만 button에 outline CSS클래스 적용
+    <button className={classNames("Button", size, color, { outline })}>
+      {children}
+    </button>
   );
 };
 
