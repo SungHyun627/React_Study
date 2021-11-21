@@ -15,7 +15,7 @@ function App() {
         다음 약관에 모두 동의
       </CheckBox>
       <p>
-        <b>check:</b>
+        <b>check: </b>
         {check ? "true" : "false"}
       </p>
     </div>
