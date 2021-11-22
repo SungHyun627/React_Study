@@ -1,4 +1,4 @@
-import styled, { css } from "styled-components";
+import styled, { css, ThemeProvider } from "styled-components";
 import Button from "./components/Button";
 
 const Circle = styled.div`
@@ -25,10 +25,23 @@ const AppBlock = styled.div`
 
 const App = () => {
   return (
-    <AppBlock>
-      <Circle color="blue" />
-      <Button>BUTTON</Button>
-    </AppBlock>
+    // ThemeProvider 내부 렌더링된 styled-components로 만든 컴포넌트는 palette를 조회하여 사용 가능
+    <ThemeProvider
+      theme={{
+        palette: {
+          blue: "#228be6",
+          gray: "#495057",
+          pink: "#f06595",
+        },
+      }}
+    >
+      <AppBlock>
+        <Circle color="blue" />
+        <Button>BUTTON</Button>
+        <Button color="gray">BUTTON</Button>
+        <Button color="pink">BUTTON</Button>
+      </AppBlock>
+    </ThemeProvider>
   );
 };
 
