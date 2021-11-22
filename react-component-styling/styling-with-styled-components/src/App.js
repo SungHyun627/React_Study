@@ -23,6 +23,13 @@ const AppBlock = styled.div`
   padding: 1rem;
 `;
 
+// button 간의 여백 1rem
+const ButtonGroup = styled.div`
+  & + & {
+    margin-top: 1rem;
+  }
+`;
+
 const App = () => {
   return (
     // ThemeProvider 내부 렌더링된 styled-components로 만든 컴포넌트는 palette를 조회하여 사용 가능
@@ -37,9 +44,29 @@ const App = () => {
     >
       <AppBlock>
         <Circle color="blue" />
-        <Button>BUTTON</Button>
-        <Button color="gray">BUTTON</Button>
-        <Button color="pink">BUTTON</Button>
+        <ButtonGroup>
+          <Button size="large">BUTTON</Button>
+          <Button>BUTTON</Button>
+          <Button size="small">BUTTON</Button>
+        </ButtonGroup>
+        <ButtonGroup>
+          <Button color="gray" size="large">
+            BUTTON
+          </Button>
+          <Button color="gray">BUTTON</Button>
+          <Button color="gray" size="small">
+            BUTTON
+          </Button>
+        </ButtonGroup>
+        <ButtonGroup>
+          <Button color="pink" size="large">
+            BUTTON
+          </Button>
+          <Button color="pink">BUTTON</Button>
+          <Button color="pink" size="small">
+            BUTTON
+          </Button>
+        </ButtonGroup>
       </AppBlock>
     </ThemeProvider>
   );
