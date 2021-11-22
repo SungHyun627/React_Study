@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { darken, lighten } from "polished";
 
 const StyledButton = styled.button`
   display: inline-flex;
@@ -17,14 +18,14 @@ const StyledButton = styled.button`
 
   background: #228be6;
   &:hover {
-    background: #339af0;
+    background: ${lighten(0.1, "#228be6")};
   }
   &:active {
-    background: #1c7ed6;
+    background: ${darken(0.1, "#228be6")};
   }
 
   & + & {
-    margin-left: 1rem;
+    margin-left: 1rem;}
   }
 `;
 const Button = ({ children, ...rest }) => {
