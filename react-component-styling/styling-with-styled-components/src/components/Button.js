@@ -1,6 +1,44 @@
 import styled, { css } from "styled-components";
 import { darken, lighten } from "polished";
 
+const colorStyles = css`
+  ${({ theme, color }) => {
+    const selected = theme.palette[color];
+    return css`
+      background: ${selected};
+      &:hover {
+        background: ${lighten(0.1, selected)};
+      }
+      &:active {
+        background: ${darken(0.1, selected)};
+      }
+    `;
+  }}
+`;
+
+const sizeStyles = css`
+  ${(props) =>
+    props.size === "large" &&
+    css`
+      height: 3rem;
+      font-size: 1.25rem;
+    `}
+
+  ${(props) =>
+    props.size === "medium" &&
+    css`
+      height: 2.25rem;
+      font-size: 1rem;
+    `}
+
+  ${(props) =>
+    props.size === "small" &&
+    css`
+      height: 1.75rem;
+      font-size: 0.875rem;
+    `}
+`;
+
 const StyledButton = styled.button`
   display: inline-flex;
   outline: none;
@@ -15,26 +53,20 @@ const StyledButton = styled.button`
 
   height: 2.25rem;
   font-size: 1rem;
-  ${({ theme, color }) => {
-    const selected = theme.palette[color];
-    return css`
-      background: ${selected};
-      &:hover {
-        background: ${lighten(0.1, selected)};
-      }
-      &:active {
-        background: ${darken(0.1, selected)};
-      }
-    `;
-  }}
+
+  // 크기
+  ${sizeStyles}
+
+  // 색상
+  ${colorStyles}
 
   & + & {
     margin-left: 1rem;
   }
 `;
-const Button = ({ children, color, ...rest }) => {
+const Button = ({ children, color, size, ...rest }) => {
   return (
-    <StyledButton color={color} {...rest}>
+    <StyledButton color={color} size={size} {...rest}>
       {children}
     </StyledButton>
   );
