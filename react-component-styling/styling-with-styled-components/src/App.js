@@ -41,7 +41,7 @@ const App = () => {
 
   const onConfirm = () => {
     console.log("확인");
-    setDialog(true);
+    setDialog(false);
   };
 
   const onCancel = () => {
@@ -105,7 +105,7 @@ const App = () => {
               BUTTON
             </Button>
             <Button size="large" color="pink" fullWidth onClick={onClick}>
-              BUTTON
+              삭제
             </Button>
           </ButtonGroup>
         </AppBlock>
