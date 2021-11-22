@@ -12,6 +12,17 @@ const colorStyles = css`
       &:active {
         background: ${darken(0.1, selected)};
       }
+      ${(props) =>
+        props.outline &&
+        css`
+          color: ${selected};
+          background: none;
+          border: 1px solid ${selected};
+          &:hover {
+            background: ${selected};
+            color: white;
+          }
+        `}
     `;
   }}
 `;
@@ -39,6 +50,20 @@ const sizeStyles = css`
     `}
 `;
 
+const fullWidthStyle = css`
+  ${(props) =>
+    props.fullWidth &&
+    css`
+      width: 100%;
+      justify-content: center;
+      // 연속된 sibling component에 대해 margin-left : 0이 적용되지 않는다(고민 필요)
+      & + & {
+        margin-top: 1rem;
+        margin-left: 0;
+      }
+    `}
+`;
+
 const StyledButton = styled.button`
   display: inline-flex;
   outline: none;
@@ -60,13 +85,21 @@ const StyledButton = styled.button`
   // 색상
   ${colorStyles}
 
+  ${fullWidthStyle}
+
   & + & {
     margin-left: 1rem;
   }
 `;
-const Button = ({ children, color, size, ...rest }) => {
+const Button = ({ children, color, size, outline, fullWidth, ...rest }) => {
   return (
-    <StyledButton color={color} size={size} {...rest}>
+    <StyledButton
+      color={color}
+      size={size}
+      outline={outline}
+      fullWidth={fullWidth}
+      {...rest}
+    >
       {children}
     </StyledButton>
   );
