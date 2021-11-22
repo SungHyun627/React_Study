@@ -15,8 +15,8 @@ const StyledButton = styled.button`
 
   height: 2.25rem;
   font-size: 1rem;
-  ${(props) => {
-    const selected = props.theme.palette[props.color];
+  ${({ theme, color }) => {
+    const selected = theme.palette[color];
     return css`
       background: ${selected};
       &:hover {
@@ -32,8 +32,12 @@ const StyledButton = styled.button`
     margin-left: 1rem;
   }
 `;
-const Button = ({ children, ...rest }) => {
-  return <StyledButton {...rest}>{children}</StyledButton>;
+const Button = ({ children, color, ...rest }) => {
+  return (
+    <StyledButton color={color} {...rest}>
+      {children}
+    </StyledButton>
+  );
 };
 
 // 버튼의 초기 색깔 blue로 설정
