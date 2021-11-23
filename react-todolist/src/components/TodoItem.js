@@ -1,4 +1,4 @@
-import { memo } from "react";
+import React from "react";
 import styled, { css } from "styled-components";
 import { MdDone, MdDelete } from "react-icons/md";
 import { useTodoDispatch } from "./TodoContext";
@@ -75,4 +75,4 @@ const TodoItem = ({ id, done, text }) => {
 };
 
 // 불필요한 rerendering 방지
-export default memo(TodoItem);
+export default React.memo(TodoItem);
