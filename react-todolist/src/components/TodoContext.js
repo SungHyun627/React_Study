@@ -1,4 +1,4 @@
-import { useReducer, createContext, useContext } from "react";
+import { useReducer, createContext, useContext, useRef } from "react";
 
 const initialTodos = [
   {
@@ -41,13 +41,19 @@ const todoReducer = (state, action) => {
 // Context 생성
 const TodoStateContext = createContext();
 const TodoDispatchContext = createContext();
+// NextId를 관리하기 위한 context
+const TodoNextIdContext = createContext();
 
 export function TodoProvider({ children }) {
   const [state, dispatch] = useReducer(todoReducer, initialTodos);
+  const nextId = useRef(5);
+
   return (
     <TodoStateContext.Provider value={state}>
       <TodoDispatchContext.Provider value={dispatch}>
-        {children}
+        <TodoNextIdContext.Provider value={nextId}>
+          {children}
+        </TodoNextIdContext.Provider>
       </TodoDispatchContext.Provider>
     </TodoStateContext.Provider>
   );
@@ -61,4 +67,9 @@ export function useTodoState() {
 // Custom hook
 export function useTodoDispatch() {
   return useContext(TodoDispatchContext);
+}
+
+// Custom hook
+export function useTodoNextId() {
+  return useContext(TodoNextIdContext);
 }
