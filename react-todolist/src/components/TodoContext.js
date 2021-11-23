@@ -17,7 +17,7 @@ const initialTodos = [
     done: false,
   },
   {
-    id: 1,
+    id: 4,
     text: "기능 구현하기",
     done: false,
   },
