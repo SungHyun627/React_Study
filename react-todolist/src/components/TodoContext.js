@@ -59,17 +59,24 @@ export function TodoProvider({ children }) {
   );
 }
 
+// Custom hook이 TodoProvider 내부에 렌더링 되어 있지 않을 때 에러를 발생시키도록 수정
 // Custonm hook
 export function useTodoState() {
-  return useContext(TodoStateContext);
+  const content = useContext(TodoStateContext);
+  if (!content) throw new Error("Cannot find TodoProvider");
+  return content;
 }
 
 // Custom hook
 export function useTodoDispatch() {
-  return useContext(TodoDispatchContext);
+  const content = useContext(TodoDispatchContext);
+  if (!content) throw new Error("Cannot find TodoProvider");
+  return content;
 }
 
 // Custom hook
 export function useTodoNextId() {
-  return useContext(TodoNextIdContext);
+  const content = useContext(TodoNextIdContext);
+  if (!content) throw new Error("Cannot find TodoProvider");
+  return content;
 }
