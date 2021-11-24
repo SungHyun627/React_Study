@@ -1,54 +1,16 @@
-import { useReducer, useEffect } from "react";
 import axios from "axios";
+import useAsync from "./useAsync";
 
-const reducer = (state, action) => {
-  switch (action.type) {
-    case "LOADING":
-      return {
-        loading: true,
-        data: null,
-        error: null,
-      };
-    case "SUCESS":
-      return {
-        loading: false,
-        data: action.data,
-        error: null,
-      };
-    case "ERROR":
-      return {
-        loading: false,
-        data: null,
-        error: action.error,
-      };
-    default:
-      throw new Error(`Unhandled action type: ${action.type}`);
-  }
+// userAsync에서 Promise에 결과를 바로 data 담기 때문에, response에서 data를 추출하여 반환
+const getUsers = async () => {
+  const response = await axios.get(
+    "https://jsonplaceholder.typicode.com/users"
+  );
+  return response.data;
 };
 
 const Users = () => {
-  const [state, dispatch] = useReducer(reducer, {
-    loading: false,
-    data: null,
-    error: null,
-  });
-
-  const fetchUsers = async () => {
-    dispatch({ type: "LOADING" });
-    try {
-      const response = await axios.get(
-        "https://jsonplaceholder.typicode.com/users"
-      );
-      dispatch({ type: "SUCESS", data: response.data });
-    } catch (e) {
-      dispatch({ type: "ERROR", error: e });
-    }
-  };
-
-  useEffect(() => {
-    fetchUsers();
-  }, []);
-
+  const [state, refetch] = useAsync(getUsers, []);
   const { loading, data: users, error } = state;
 
   if (loading) return <div>로딩 중...</div>;
@@ -66,7 +28,7 @@ const Users = () => {
         ))}
       </ul>
       {/* 버튼을 사용하여 다시 불러오기 */}
-      <button onClick={fetchUsers}>다시 불러오기</button>
+      <button onClick={refetch}>다시 불러오기</button>
     </>
   );
 };
