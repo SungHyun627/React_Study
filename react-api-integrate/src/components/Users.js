@@ -38,11 +38,11 @@ const Users = () => {
   return (
     // User 배열 랜더링
     <ul>
-      {users.map((user) => {
+      {users.map((user) => (
         <li key={user.id}>
           {user.username} ({user.name})
-        </li>;
-      })}
+        </li>
+      ))}
     </ul>
   );
 };
