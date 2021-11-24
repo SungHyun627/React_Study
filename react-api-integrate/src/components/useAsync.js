@@ -25,7 +25,8 @@ const reducer = (state, action) => {
   }
 };
 
-const useAsync = (callback, deps = []) => {
+// 특정 버튼을 눌렀을 때에만 데이터를 요청하기위해 skip variable 설정
+const useAsync = (callback, deps = [], skip = false) => {
   const [state, dispatch] = useReducer(reducer, {
     loading: false,
     data: null,
@@ -43,6 +44,7 @@ const useAsync = (callback, deps = []) => {
   };
 
   useEffect(() => {
+    if (skip) return;
     fetchData();
   }, deps);
 
