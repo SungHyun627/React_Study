@@ -1,7 +1,7 @@
 import axios from "axios";
-import useAsync from "./useAsync";
+import { useAsync } from "react-async";
 
-const getUser = async (id) => {
+const getUser = async ({ id }) => {
   const response = await axios.get(
     `https://jsonplaceholder.typicode.com/users/${id}`
   );
@@ -9,8 +9,11 @@ const getUser = async (id) => {
 };
 
 const User = ({ id }) => {
-  const [state] = useAsync(() => getUser(id), [id]);
-  const { loading, data: user, error } = state;
+  const {
+    data: user,
+    loading,
+    error,
+  } = useAsync({ promiseFn: getUser, id, watch: id });
 
   if (loading) return <div>로딩 중...</div>;
   if (error) return <div>에러 발생</div>;
