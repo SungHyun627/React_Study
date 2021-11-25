@@ -1,5 +1,5 @@
 import "./App.css";
-import { Route, Link } from "react-router-dom";
+import { Switch, Route, Link } from "react-router-dom";
 import Home from "./Home";
 import About from "./About";
 import Profiles from "./Profiles";
@@ -23,10 +23,20 @@ function App() {
         </li>
       </ul>
       <hr />
-      <Route path="/" exact={true} component={Home} />
-      <Route path="/about" component={About} />
-      <Route path="/profiles" component={Profiles} />
-      <Route path="/history" component={HistorySample} />
+      <Switch>
+        <Route path="/" exact={true} component={Home} />
+        <Route path="/about" component={About} />
+        <Route path="/profiles" component={Profiles} />
+        <Route path="/history" component={HistorySample} />
+        <Route
+          render={({ location }) => (
+            <div>
+              <h2>이 페이지는 존재하지 않습니다.</h2>
+              <p>{location.pathname}</p>
+            </div>
+          )}
+        />
+      </Switch>
     </div>
   );
 }
