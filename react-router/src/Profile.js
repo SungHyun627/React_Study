@@ -1,5 +1,3 @@
-import { Link, Route } from "react-router-dom";
-
 // 프로필에서 사용할 데이터
 const profileData = {
   velopert: {
