@@ -18,7 +18,7 @@ const initialState = {
 };
 
 // reducer 선언하여 export default로 export
-export default function reducer(state = initialState, action) {
+export default function counter(state = initialState, action) {
   switch (action.type) {
     case SET_DIFF:
       return {
