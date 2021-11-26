@@ -30,7 +30,7 @@ export default function reducer(state = initialState, action) {
         ...state,
         number: state.number + state.diff,
       };
-    case DECRAESE:
+    case DECREASE:
       return {
         ...state,
         number: state.number - state.diff,
