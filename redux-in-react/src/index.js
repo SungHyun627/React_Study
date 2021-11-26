@@ -3,7 +3,11 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import "./exercise";
+import { createStore } from "redux";
+import rootReducer from "./modules";
+
+// 스토어 생성
+const store = createStore(rootReducer);
 
 ReactDOM.render(
   <React.StrictMode>
