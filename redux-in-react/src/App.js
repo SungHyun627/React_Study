@@ -1,10 +1,13 @@
-import './App.css';
-import CounterContainer from './containers/CounterContainer';
+import "./App.css";
+import CounterContainer from "./containers/CounterContainer";
+import TodosContainer from "./containers/TodosContainer";
 
 function App() {
   return (
     <div>
-      <CounterContainer/>
+      <CounterContainer />
+      <hr />
+      <TodosContainer />
     </div>
   );
 }
