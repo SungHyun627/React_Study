@@ -27,7 +27,7 @@ export const getPosts = async () => {
 };
 
 // ID로 포스트를 조회하는 비동기 함수
-export const getPostID = async (id) => {
+export const getPostById = async (id) => {
   await sleep(500);
   return posts.find((post) => post.id === id);
 };
