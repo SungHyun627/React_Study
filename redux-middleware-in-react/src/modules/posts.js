@@ -1,6 +1,11 @@
 // 프로미스를 다루는 리덕스 모듈 작성
 // api/posts 안의 함수 모두 불러오기
 import * as postAPI from "../api/posts";
+import {
+  createPromiseThunk,
+  reducerUtils,
+  handleAsyncActions,
+} from "../lib/asyncUtils";
 
 // 포스트 여러개 조회
 // 요청 시작
@@ -17,99 +22,26 @@ const GET_POST_SUCCESS = "GET_POST_SUCCESS";
 // 요청 실패
 const GET_POST_ERROR = "GET_POST_ERROR";
 
-export const getPosts = () => async (dispatch) => {
-  // 요청 시작
-  dispatch({ type: GET_POSTS });
-  try {
-    // API 호출
-    const posts = await postAPI.getPosts();
-    dispatch({ type: GET_POSTS_SUCCESS, posts });
-  } catch (e) {
-    dispatch({ type: GET_POSTS_ERROR, error: e });
-  }
-};
+// thunk 함수 리팩토링
+export const getPosts = createPromiseThunk(GET_POSTS, postAPI.getPosts);
+export const getPost = createPromiseThunk(GET_POST, postAPI.getPostById);
 
-export const getPost = (id) => async (dispatch) => {
-  // 요청 시작
-  dispatch({ type: GET_POST });
-  try {
-    //   API 호출
-    const post = await postAPI.getPostById(id);
-    dispatch({ type: GET_POST_SUCCESS, post });
-  } catch (e) {
-    dispatch({ type: GET_POST_ERROR, error: e });
-  }
-};
-
+// initial()함수를 이용해서 리팩토링
 const initialState = {
-  posts: {
-    loading: false,
-    data: null,
-    error: null,
-  },
-  post: {
-    loading: false,
-    data: null,
-    error: null,
-  },
+  posts: reducerUtils.initial(),
+  post: reducerUtils.initial(),
 };
 
 export default function posts(state = initialState, action) {
   switch (action.type) {
     case GET_POSTS:
-      return {
-        ...state,
-        posts: {
-          loading: true,
-          data: null,
-          error: null,
-        },
-      };
     case GET_POSTS_SUCCESS:
-      return {
-        ...state,
-        posts: {
-          loading: true,
-          data: action.posts,
-          error: null,
-        },
-      };
     case GET_POSTS_ERROR:
-      return {
-        ...state,
-        posts: {
-          loading: true,
-          data: null,
-          error: action.error,
-        },
-      };
+      return handleAsyncActions(GET_POSTS, 'posts')(state, action)
     case GET_POST:
-      return {
-        ...state,
-        post: {
-          loading: true,
-          data: null,
-          error: null,
-        },
-      };
     case GET_POST_SUCCESS:
-      return {
-        ...state,
-        post: {
-          loading: true,
-          data: action.post,
-          error: null,
-        },
-      };
     case GET_POST_ERROR:
-      return {
-        ...state,
-        post: {
-          loading: HTMLOptGroupElement,
-          data: null,
-          error: action.error,
-        },
-      };
+      return handleAsyncActions(GET_POST, 'post')(state, action)
     default:
       return state;
   }
