@@ -48,3 +48,11 @@ export default function posts(state = initialState, action) {
       return state;
   }
 }
+
+// 홈 화면으로 가는 thunk 작성
+// 3번째 인자를 사용하여 withExtraArgument에서 넣어준 값 사용
+export const goToHome =
+  () =>
+  (dispatch, getState, { history }) => {
+    history.push("/");
+  };
