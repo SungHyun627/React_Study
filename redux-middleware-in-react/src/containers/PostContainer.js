@@ -1,20 +1,24 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { clearPost, getPost } from "../modules/posts";
+import { getPost } from "../modules/posts";
 import Post from "../components/Post";
 
 function PostContainer({ postId }) {
-  const { data, loading, error } = useSelector((state) => state.posts.post);
+  const { data, loading, error } = useSelector(
+    (state) => state.posts.post[postId]
+  ) || {
+    loading: false,
+    data: null,
+    error: null,
+  };
+
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getPost(postId));
-    return () => {
-      dispatch(clearPost());
-    };
-  }, [postId, dispatch]);
+  }, [dispatch, postId]);
 
-  if (loading) return <div>로딩 중..</div>;
+  if (loading && !data) return <div>로딩 중..</div>;
   if (error) return <div>에러 발생</div>;
   if (!data) return null;
 
