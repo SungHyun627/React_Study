@@ -9,8 +9,8 @@ const DECREASE_ASYNC = "DECREASE_ASYNC";
 // 액션 생성 함수
 export const increase = () => ({ type: INCREASE });
 export const decrease = () => ({ type: DECREASE });
-export const increase_Async = () => ({ type: INCREASE_ASYNC });
-export const decrease_Async = () => ({ type: DECREASE_ASYNC });
+export const increaseAsync = () => ({ type: INCREASE_ASYNC });
+export const decreaseAsync = () => ({ type: DECREASE_ASYNC });
 
 // thunk 함수 생성
 // export const increaseAsync = () => (dispatch) => {
