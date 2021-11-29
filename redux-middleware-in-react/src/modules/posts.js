@@ -10,7 +10,7 @@ import {
   // createPromiseThunkById,
   handleAsyncActionsById,
 } from "../lib/asyncUtils";
-import { takeEvery } from "redux-saga/effects";
+import { takeEvery, getContext } from "redux-saga/effects";
 
 // 포스트 여러개 조회
 // 요청 시작
@@ -26,6 +26,7 @@ const GET_POST = "GET_POST";
 const GET_POST_SUCCESS = "GET_POST_SUCCESS";
 // 요청 실패
 const GET_POST_ERROR = "GET_POST_ERROR";
+const GO_TO_HOME = "GO_TO_HOME";
 
 // thunk 함수 리팩토링
 // export const getPosts = createPromiseThunk(GET_POSTS, postAPI.getPosts);
@@ -33,9 +34,14 @@ const GET_POST_ERROR = "GET_POST_ERROR";
 
 export const getPosts = () => ({ type: GET_POSTS });
 export const getPost = (id) => ({ type: GET_POST, payload: id, meta: id });
+export const goToHome = () => ({ type: GO_TO_HOME });
 
 const getPostsSaga = createPromiseSaga(GET_POSTS, postsAPI.getPosts);
 const getPostSaga = createPromiseSagaById(GET_POST, postsAPI.getPostById);
+function* goToHomeSaga() {
+  const history = yield getContext("history");
+  history.push("/");
+}
 
 // function* getPostsSaga() {
 //   try {
@@ -79,6 +85,7 @@ const getPostSaga = createPromiseSagaById(GET_POST, postsAPI.getPostById);
 export function* postsSaga() {
   yield takeEvery(GET_POSTS, getPostsSaga);
   yield takeEvery(GET_POST, getPostSaga);
+  yield takeEvery(GO_TO_HOME, goToHomeSaga);
 }
 
 // initial()함수를 이용해서 리팩토링
