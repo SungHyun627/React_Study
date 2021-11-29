@@ -1,14 +1,16 @@
 // 프로미스를 다루는 리덕스 모듈 작성
 // api/posts 안의 함수 모두 불러오기
-import * as postAPI from "../api/posts";
+import * as postsAPI from "../api/posts";
 import {
   // createPromiseThunk,
+  createPromiseSaga,
+  createPromiseSagaById,
   reducerUtils,
   handleAsyncActions,
   // createPromiseThunkById,
   handleAsyncActionsById,
 } from "../lib/asyncUtils";
-import { call, put, takeEvery } from "redux-saga/effects";
+import { takeEvery } from "redux-saga/effects";
 
 // 포스트 여러개 조회
 // 요청 시작
@@ -32,43 +34,46 @@ const GET_POST_ERROR = "GET_POST_ERROR";
 export const getPosts = () => ({ type: GET_POSTS });
 export const getPost = (id) => ({ type: GET_POST, payload: id, meta: id });
 
-function* getPostsSaga() {
-  try {
-    // 특정 함수 호출후 결과물이 반환 될 때까지 기다린다.
-    const posts = yield call(postAPI.getPosts);
-    yield put({
-      type: GET_POSTS_SUCCESS,
-      payload: posts,
-    });
-  } catch (e) {
-    yield put({
-      type: GET_POSTS_ERROR,
-      error: true,
-      payload: e,
-    });
-  }
-}
+const getPostsSaga = createPromiseSaga(GET_POSTS, postsAPI.getPosts);
+const getPostSaga = createPromiseSagaById(GET_POST, postsAPI.getPostById);
 
-// 액션이 지니고 있는 값을 조회하고 싶을 때, action을 파라미터로 받아와서 사용
-function* getPostSaga(action) {
-  const param = action.payload;
-  const id = action.meta;
-  try {
-    const post = yield call(postAPI.getPostById, param);
-    yield put({
-      type: GET_POST_SUCCESS,
-      paylaod: post,
-      meta: id,
-    });
-  } catch (e) {
-    yield put({
-      type: GET_POST_ERROR,
-      error: true,
-      payload: e,
-      meta: id,
-    });
-  }
-}
+// function* getPostsSaga() {
+//   try {
+//     // 특정 함수 호출후 결과물이 반환 될 때까지 기다린다.
+//     const posts = yield call(postAPI.getPosts);
+//     yield put({
+//       type: GET_POSTS_SUCCESS,
+//       payload: posts,
+//     });
+//   } catch (e) {
+//     yield put({
+//       type: GET_POSTS_ERROR,
+//       error: true,
+//       payload: e,
+//     });
+//   }
+// }
+
+// // 액션이 지니고 있는 값을 조회하고 싶을 때, action을 파라미터로 받아와서 사용
+// function* getPostSaga(action) {
+//   const param = action.payload;
+//   const id = action.meta;
+//   try {
+//     const post = yield call(postAPI.getPostById, param);
+//     yield put({
+//       type: GET_POST_SUCCESS,
+//       paylaod: post,
+//       meta: id,
+//     });
+//   } catch (e) {
+//     yield put({
+//       type: GET_POST_ERROR,
+//       error: true,
+//       payload: e,
+//       meta: id,
+//     });
+//   }
+// }
 
 // 사가 합치기
 export function* postsSaga() {
