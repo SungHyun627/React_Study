@@ -1,4 +1,4 @@
-import { delay, put } from "redux-saga/effects";
+import { delay, put, takeEvery, takeLatest } from "redux-saga/effects";
 
 // 액션 타입
 const INCREASE = "INCREASE";
@@ -32,6 +32,13 @@ function* decreaseSaga() {
   // 1초 기다림
   yield delay(1000);
   yield put(decrease());
+}
+
+export function* counterSaga() {
+  // 모든 INCREASE_ASYNC 처리
+  yield takeEvery(INCREASE_ASYNC, increaseSaga);
+  // 가장 마지막으로 dispatch된 DECREASE_AYSNC 액션만을 처리
+  yield takeLatest(DECREASE_ASYNC, decreaseSaga);
 }
 
 // 초기값
