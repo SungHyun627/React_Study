@@ -1,16 +1,46 @@
-// Promise에 기반한 Thunk를 만들어주는 함수
-export const createPromiseThunk = (type, promiseCreator) => {
-  const [SUCCESS, ERROR] = [`${type}_SUCCESS`, `${type}_ERROR`];
+import { call, put } from "redux-saga/effects";
 
-  return (param) => async (dispatch) => {
-    // 요청 시작
-    dispatch({ type, param });
+// Promise에 기반한 Thunk를 만들어주는 함수
+// export const createPromiseThunk = (type, promiseCreator) => {
+//   const [SUCCESS, ERROR] = [`${type}_SUCCESS`, `${type}_ERROR`];
+
+//   return (param) => async (dispatch) => {
+//     // 요청 시작
+//     dispatch({ type, param });
+//     try {
+//       // 결과물 : payload
+//       const payload = await promiseCreator(param);
+//       dispatch({ type: SUCCESS, payload });
+//     } catch (e) {
+//       dispatch({ type: ERROR, payload: e, error: true });
+//     }
+//   };
+// };
+
+//프로미스를 기다렸다가 결과를 dispatch 하는 saga
+export const createPromiseSaga = (type, promiseCreator) => {
+  const [SUCCESS, ERROR] = [`${type}_SUCCESS`, `${type}_ERROR`];
+  return function* saga(action) {
     try {
-      // 결과물 : payload
-      const payload = await promiseCreator(param);
-      dispatch({ type: SUCCESS, payload });
+      // 재사용성을 위해 action.payload값 설정
+      const payload = yield call(promiseCreator, action.payload);
     } catch (e) {
-      dispatch({ type: ERROR, payload: e, error: true });
+      yield put({ type: ERROR, error: true, payload: e });
+    }
+  };
+};
+
+// 특정 id의 데이터를 조회하는 용도로 사용하는 saga
+// api 호출시 action.payload를 parameter로 id값을 action.meta로 설정
+export const createPromiseSagaById = (type, promiseCreator) => {
+  const [SUCCESS, ERROR] = [`${type}_SUCCESS`, `${type}_ERROR`];
+  return function* saga(action) {
+    const id = action.meta;
+    try {
+      const payload = yield call(promiseCreator, action.payload);
+      yield put({ type: SUCCESS, payload, meta: id });
+    } catch (e) {
+      yield put({ type: ERROR, error: e, meta: id });
     }
   };
 };
@@ -72,24 +102,24 @@ export const handleAsyncActions = (type, key, keepData = false) => {
 };
 
 // 특정 id를 처리하는 Thunk 생성함수
-const defaultIdSelector = (param) => param;
-export const createPromiseThunkById = (
-  type,
-  promiseCreator,
-  idSelector = defaultIdSelector
-) => {
-  const [SUCCESS, ERROR] = [`${type}_SUCCESS`, `${type}_ERROR`];
-  return (param) => async (dispatch) => {
-    const id = idSelector(param);
-    dispatch({ type, meta: id });
-    try {
-      const payload = await promiseCreator(param);
-      dispatch({ type: SUCCESS, payload, meta: id });
-    } catch (e) {
-      dispatch({ type: ERROR, error: true, payload: e, meta: id });
-    }
-  };
-};
+// const defaultIdSelector = (param) => param;
+// export const createPromiseThunkById = (
+//   type,
+//   promiseCreator,
+//   idSelector = defaultIdSelector
+// ) => {
+//   const [SUCCESS, ERROR] = [`${type}_SUCCESS`, `${type}_ERROR`];
+//   return (param) => async (dispatch) => {
+//     const id = idSelector(param);
+//     dispatch({ type, meta: id });
+//     try {
+//       const payload = await promiseCreator(param);
+//       dispatch({ type: SUCCESS, payload, meta: id });
+//     } catch (e) {
+//       dispatch({ type: ERROR, error: true, payload: e, meta: id });
+//     }
+//   };
+// };
 
 // id별로 처리하는 유틸함수
 export const handleAsyncActionsById = (type, key, keepData = false) => {
