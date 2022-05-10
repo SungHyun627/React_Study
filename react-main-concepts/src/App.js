@@ -1,6 +1,6 @@
 import Hello from './components/hello';
 import Element from './components/element';
-import Tick from './components/tick';
+import Clock from './components/clock';
 import Welcome from './components/welcome';
 
 function App() {
@@ -8,7 +8,7 @@ function App() {
     <div className="App">
       <Hello />
       <Element />
-      <Tick />
+      <Clock />
       <Welcome name="Sara"></Welcome>
     </div>
   );
