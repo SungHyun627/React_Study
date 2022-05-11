@@ -5,6 +5,8 @@ import Welcome from './components/welcome';
 import Toggle from './components/toggle';
 import LoginControl from './components/logincontrol';
 import NumberList from './components/numberlist';
+import NameForm from './components/nameform';
+import Reservation from './components/reservation';
 
 const numbers = [1, 2, 3, 4, 5];
 
@@ -18,6 +20,8 @@ function App() {
       <Toggle />
       <LoginControl />
       <NumberList numbers={numbers} />
+      <NameForm />
+      <Reservation />
     </div>
   );
 }
