@@ -4,6 +4,9 @@ import Clock from './components/clock';
 import Welcome from './components/welcome';
 import Toggle from './components/toggle';
 import LoginControl from './components/logincontrol';
+import NumberList from './components/numberlist';
+
+const numbers = [1, 2, 3, 4, 5];
 
 function App() {
   return (
@@ -14,6 +17,7 @@ function App() {
       <Welcome name="Sara"></Welcome>
       <Toggle />
       <LoginControl />
+      <NumberList numbers={numbers} />
     </div>
   );
 }
