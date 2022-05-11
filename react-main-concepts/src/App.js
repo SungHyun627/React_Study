@@ -7,6 +7,7 @@ import LoginControl from './components/LoginControl';
 import NumberList from './components/NumberList';
 import NameForm from './components/NameForm';
 import Reservation from './components/Reservation';
+import Calculator from './components/temperature_calculator/Calculator';
 
 const numbers = [1, 2, 3, 4, 5];
 
@@ -22,6 +23,7 @@ function App() {
       <NumberList numbers={numbers} />
       <NameForm />
       <Reservation />
+      <Calculator />
     </div>
   );
 }
