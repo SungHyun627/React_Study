@@ -1,12 +1,12 @@
-import Hello from './components/hello';
-import Element from './components/element';
-import Clock from './components/clock';
-import Welcome from './components/welcome';
-import Toggle from './components/toggle';
-import LoginControl from './components/logincontrol';
-import NumberList from './components/numberlist';
-import NameForm from './components/nameform';
-import Reservation from './components/reservation';
+import Hello from './components/Hello';
+import Element from './components/Element';
+import Clock from './components/Clock';
+import Welcome from './components/Welcome';
+import Toggle from './components/Toggle';
+import LoginControl from './components/LoginControl';
+import NumberList from './components/NumberList';
+import NameForm from './components/NameForm';
+import Reservation from './components/Reservation';
 
 const numbers = [1, 2, 3, 4, 5];
 
