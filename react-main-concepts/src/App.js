@@ -8,6 +8,8 @@ import NumberList from './components/NumberList';
 import NameForm from './components/NameForm';
 import Reservation from './components/Reservation';
 import Calculator from './components/temperature_calculator/Calculator';
+import WelcomeDialog from './components/Dialog/WelcomeDialog';
+import SignUpDialog from './components/Dialog/SignUpDialog';
 
 const numbers = [1, 2, 3, 4, 5];
 
@@ -24,6 +26,8 @@ function App() {
       <NameForm />
       <Reservation />
       <Calculator />
+      <WelcomeDialog />
+      <SignUpDialog />
     </div>
   );
 }
